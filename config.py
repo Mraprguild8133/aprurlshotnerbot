@@ -7,7 +7,7 @@ load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN', 'YOUR_BOT_TOKEN_HERE')
 
 # URL Shortener Services API Keys
-USE_WEBHOOK = True
+USE_WEBHOOK = False 
 WEBHOOK_PORT = 5000
 WEBHOOK_URL = os.environ.get('WEBHOOK_URL')  # Render provides this
 
