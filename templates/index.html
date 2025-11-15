@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URL Shortener Bot - Status</title>
+    <title>URL Shortener Bot</title>
     <style>
         * {
             margin: 0;
@@ -15,341 +15,186 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
         }
 
         .container {
-            max-width: 800px;
-            margin: 0 auto;
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: white;
-            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
             text-align: center;
         }
 
-        .header h1 {
-            font-size: 2.5em;
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        h1 {
+            color: #333;
             margin-bottom: 10px;
+            font-size: 2.5rem;
         }
 
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
+        .subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
         }
 
-        .bot-info {
-            padding: 30px;
-            border-bottom: 1px solid #eee;
+        .features {
+            text-align: left;
+            margin: 30px 0;
         }
 
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+        .feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            color: #667eea;
+        }
+
+        .feature-text {
+            flex: 1;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .feature-desc {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .telegram-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #0088cc;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
             margin-top: 20px;
         }
 
-        .info-card {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
+        .telegram-button:hover {
+            background: #0077b3;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 136, 204, 0.3);
         }
 
-        .info-card h3 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 1.1em;
+        .telegram-icon {
+            margin-right: 10px;
+            font-size: 1.3rem;
         }
 
-        .info-card p {
-            color: #666;
-            font-size: 1.3em;
-            font-weight: bold;
-        }
-
-        .status-section {
-            padding: 30px;
-        }
-
-        .section-title {
-            font-size: 1.5em;
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .service-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .service-card {
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            padding: 25px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        .service-card.connected {
-            border-color: #28a745;
-            background: linear-gradient(135deg, #f8fff9 0%, #e8f5e8 100%);
-        }
-
-        .service-card.disconnected {
-            border-color: #dc3545;
-            background: linear-gradient(135deg, #fff8f8 0%, #ffe8e8 100%);
-        }
-
-        .service-icon {
-            font-size: 2.5em;
-            margin-bottom: 15px;
-        }
-
-        .service-name {
-            font-size: 1.3em;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .service-status {
-            font-size: 1.1em;
-            font-weight: bold;
-            margin-bottom: 15px;
-            padding: 5px 15px;
-            border-radius: 20px;
-            display: inline-block;
-        }
-
-        .status-connected {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status-disconnected {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .api-key-preview {
-            font-family: 'Courier New', monospace;
-            background: #2d3748;
-            color: #68d391;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 0.9em;
-            word-break: break-all;
-            margin-top: 10px;
-        }
-
-        .instructions {
-            background: #e3f2fd;
-            padding: 25px;
-            border-radius: 10px;
+        .status {
             margin-top: 30px;
+            padding: 15px;
+            background: #e8f5e8;
+            border-radius: 10px;
+            border-left: 4px solid #4caf50;
         }
 
-        .instructions h3 {
-            color: #1976d2;
-            margin-bottom: 15px;
-        }
-
-        .instructions ul {
-            list-style-position: inside;
-            color: #555;
-        }
-
-        .instructions li {
-            margin-bottom: 8px;
-            padding-left: 10px;
-        }
-
-        .refresh-btn {
-            display: block;
-            width: 200px;
-            margin: 30px auto;
-            padding: 12px 25px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .refresh-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        .footer {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-            border-top: 1px solid #eee;
+        .status-text {
+            color: #2e7d32;
+            font-weight: 600;
         }
 
         @media (max-width: 600px) {
-            .header h1 {
-                font-size: 2em;
+            .container {
+                padding: 30px 20px;
             }
             
-            .service-grid {
-                grid-template-columns: 1fr;
+            h1 {
+                font-size: 2rem;
             }
             
-            .info-grid {
-                grid-template-columns: 1fr;
+            .feature {
+                padding: 12px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🔗 URL Shortener Bot</h1>
-            <p>API Connection Status Dashboard</p>
-        </div>
-
-        <div class="bot-info">
-            <h2>Bot Information</h2>
-            <div class="info-grid">
-                <div class="info-card">
-                    <h3>Bot Status</h3>
-                    <p id="bot-status">🟢 Online</p>
+        <div class="logo">🔗</div>
+        
+        <h1>URL Shortener Bot</h1>
+        <p class="subtitle">Powerful URL shortening service right in your Telegram</p>
+        
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🌐</div>
+                <div class="feature-text">
+                    <div class="feature-title">Multiple Services</div>
+                    <div class="feature-desc">Bitly, TinyURL, Cuttly, GPLinks</div>
                 </div>
-                <div class="info-card">
-                    <h3>Total Services</h3>
-                    <p id="total-services">4</p>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">💰</div>
+                <div class="feature-text">
+                    <div class="feature-title">Earn Money</div>
+                    <div class="feature-desc">Monetize your links with GPLinks</div>
                 </div>
-                <div class="info-card">
-                    <h3>Connected</h3>
-                    <p id="connected-count">{{ connected_services }}/4</p>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <div class="feature-text">
+                    <div class="feature-title">Fast & Reliable</div>
+                    <div class="feature-desc">Instant URL shortening</div>
                 </div>
-                <div class="info-card">
-                    <h3>Last Updated</h3>
-                    <p id="last-updated">{{ current_time }}</p>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">🤖</div>
+                <div class="feature-text">
+                    <div class="feature-title">Easy to Use</div>
+                    <div class="feature-desc">Simple commands and interface</div>
                 </div>
             </div>
         </div>
 
-        <div class="status-section">
-            <h2 class="section-title">API Service Status</h2>
-            <div class="service-grid">
-                <!-- Bitly Service -->
-                <div class="service-card {{ 'connected' if bitly_status else 'disconnected' }}">
-                    <div class="service-icon">🌐</div>
-                    <div class="service-name">Bitly</div>
-                    <div class="service-status {{ 'status-connected' if bitly_status else 'status-disconnected' }}">
-                        {{ '✅ Connected' if bitly_status else '❌ Disconnected' }}
-                    </div>
-                    {% if bitly_key %}
-                    <div class="api-key-preview">{{ bitly_key[:8] }}••••••••</div>
-                    {% else %}
-                    <div style="color: #666; font-size: 0.9em;">No API key configured</div>
-                    {% endif %}
-                </div>
-
-                <!-- TinyURL Service -->
-                <div class="service-card connected">
-                    <div class="service-icon">🔗</div>
-                    <div class="service-name">TinyURL</div>
-                    <div class="service-status status-connected">✅ Always Available</div>
-                    <div style="color: #666; font-size: 0.9em;">No API key required</div>
-                </div>
-
-                <!-- Cuttly Service -->
-                <div class="service-card {{ 'connected' if cuttly_status else 'disconnected' }}">
-                    <div class="service-icon">📊</div>
-                    <div class="service-name">Cuttly</div>
-                    <div class="service-status {{ 'status-connected' if cuttly_status else 'status-disconnected' }}">
-                        {{ '✅ Connected' if cuttly_status else '❌ Disconnected' }}
-                    </div>
-                    {% if cuttly_key %}
-                    <div class="api-key-preview">{{ cuttly_key[:8] }}••••••••</div>
-                    {% else %}
-                    <div style="color: #666; font-size: 0.9em;">No API key configured</div>
-                    {% endif %}
-                </div>
-
-                <!-- GPLinks Service -->
-                <div class="service-card {{ 'connected' if gplinks_status else 'disconnected' }}">
-                    <div class="service-icon">💰</div>
-                    <div class="service-name">GPLinks</div>
-                    <div class="service-status {{ 'status-connected' if gplinks_status else 'status-disconnected' }}">
-                        {{ '✅ Connected' if gplinks_status else '❌ Disconnected' }}
-                    </div>
-                    {% if gplinks_key %}
-                    <div class="api-key-preview">{{ gplinks_key[:8] }}••••••••</div>
-                    {% else %}
-                    <div style="color: #666; font-size: 0.9em;">No API key configured</div>
-                    {% endif %}
-                </div>
-            </div>
+        <div class="status">
+            <div class="status-text">✅ Service is running smoothly</div>
         </div>
 
-        <div class="instructions">
-            <h3>📋 Configuration Instructions</h3>
-            <ul>
-                <li><strong>Bitly:</strong> Get API key from https://bitly.com/</li>
-                <li><strong>Cuttly:</strong> Register at https://cutt.ly/ and get API key</li>
-                <li><strong>GPLinks:</strong> Sign up at https://gplinks.in/ for monetization</li>
-                <li><strong>TinyURL:</strong> No API key required - always available</li>
-                <li>Set environment variables in your deployment platform</li>
-            </ul>
-        </div>
-
-        <button class="refresh-btn" onclick="location.reload()">🔄 Refresh Status</button>
-
-        <div class="footer">
-            <p>URL Shortener Bot &copy; 2024 | Status Dashboard</p>
-            <p style="font-size: 0.9em; margin-top: 5px;">Auto-updates every 5 minutes</p>
-        </div>
+        <a href="https://t.me/aprurlshortnerbot" class="telegram-button" target="_blank">
+            <span class="telegram-icon">✈️</span>
+            Start Using Bot
+        </a>
     </div>
-
-    <script>
-        // Auto-refresh every 5 minutes
-        setTimeout(() => {
-            location.reload();
-        }, 300000);
-
-        // Add some dynamic effects
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.service-card');
-            cards.forEach((card, index) => {
-                card.style.animationDelay = `${index * 0.1}s`;
-                card.classList.add('fade-in');
-            });
-        });
-
-        // Add CSS for fade-in animation
-        const style = document.createElement('style');
-        style.textContent = `
-            .fade-in {
-                animation: fadeIn 0.5s ease-in-out;
-            }
-            @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(20px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-        `;
-        document.head.appendChild(style);
-    </script>
 </body>
-  </html>
+</html>
